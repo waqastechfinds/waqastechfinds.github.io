@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://waqastechfinds.github.io/Digital-Planners/sitemap.xml
+Sitemap: https://waqastechfinds.github.io/sitemap.xml
