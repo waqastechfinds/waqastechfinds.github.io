@@ -246,10 +246,20 @@
 </div>
 <div id="overlayMenu" class="overlay-menu" onclick="closeNav()"></div>
 
-<!-- AD SLOT: 320x50 banner (Monetag) — paste your zone script below -->
+<!-- AD: 320x50 top banner (Adsterra) -->
 <div class="ad-slot container">
-  <div class="ad-box">Ad space — 320×50 banner</div>
-  <!-- <script>(function(d,z,s){s.src='https://alwingulla.com/320x50/YOUR_BANNER_320_ZONE_ID.js';z=d.getElementsByTagName('script')[0];z.parentNode.insertBefore(s,z);})(document);</script> -->
+  <div id="ad-banner-320x50" style="text-align:center;overflow:hidden;">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '93884e7bba4ef2d9f04fd48ef8edbbd0',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="https://www.highperformanceformat.com/93884e7bba4ef2d9f04fd48ef8edbbd0/invoke.js"></script>
+  </div>
 </div>
 
 <main>
@@ -309,10 +319,21 @@
     </div>
   </section>
 
-  <!-- AD SLOT: 300x250 mid-page -->
-  <div class="ad-slot container">
-    <div class="ad-box">Ad space — 300×250</div>
-    <!-- <script async data-cfasync="false" src="//lightestjump.com/300x250/YOUR_BANNER_300_ZONE_ID.js"></script> -->
+  <!-- AD: 300x250 mid-page banner (Adsterra) -->
+<div class="ad-slot container">
+  <div id="ad-banner-300x250" style="text-align:center;overflow:hidden;">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '293f550c4e691ae8d891c0faf5b482f6',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="https://www.highperformanceformat.com/293f550c4e691ae8d891c0faf5b482f6/invoke.js"></script>
+  </div>
+</div>
   </div>
 
   <!-- HOW IT WORKS -->
@@ -438,11 +459,13 @@
 
 <!-- DOWNLOAD OVERLAY -->
 <div class="dl-overlay" id="dlOverlay">
-  <div class="dl-card">
-    <div class="dl-spinner"></div>
-    <h3>Preparing your download…</h3>
-    <p>Your planner will start downloading in a few seconds.</p>
+  <div class="dl-card" id="dlCard">
+    <div class="dl-spinner" id="dlSpinner"></div>
+    <div id="dlIcon" style="font-size:40px;display:none;margin-bottom:10px;">&#9989;</div>
+    <h3 id="dlTitle">Preparing your download…</h3>
+    <p id="dlMessage">Your planner will start downloading in a few seconds.</p>
     <a href="Undated_Digital_Planner.pdf" download id="dlFallback" class="dl-fallback">Click here if it doesn't start</a>
+    <button id="dlCloseBtn" onclick="document.getElementById('dlOverlay').style.display='none'" style="display:none;margin-top:14px;background:var(--sage-deep);color:#fff;border:none;padding:10px 24px;border-radius:30px;font-weight:600;cursor:pointer;">Close</button>
   </div>
 </div>
 
@@ -459,16 +482,34 @@ function closeNav() {
 }
 
 /* ============================================================
-   AD SLOT: Interstitial (Monetag) — paste your zone script call
-   inside startDownload() where marked below.
+   Download flow:
+   1. Show "preparing" state
+   2. Trigger Popunder (Adsterra) — only fires for people who click Download
+   3. After 4s, download the PDF
+   4. Switch overlay to "Download Complete" state
    ============================================================ */
 function startDownload(){
   var overlay = document.getElementById('dlOverlay');
   var fallback = document.getElementById('dlFallback');
+  var spinner = document.getElementById('dlSpinner');
+  var icon = document.getElementById('dlIcon');
+  var title = document.getElementById('dlTitle');
+  var message = document.getElementById('dlMessage');
+  var closeBtn = document.getElementById('dlCloseBtn');
+
+  // Reset to "preparing" state each time it's opened
+  spinner.style.display = 'block';
+  icon.style.display = 'none';
+  title.textContent = 'Preparing your download…';
+  message.textContent = 'Your planner will start downloading in a few seconds.';
+  fallback.style.display = 'none';
+  closeBtn.style.display = 'none';
   overlay.style.display = 'flex';
 
-  // Open interstitial ad in a new tab (uncomment and add your zone):
-  // window.open('//your-interstitial-domain.com/YOUR_INTERSTITIAL_ZONE_ID', '_blank');
+  // Trigger Popunder ad (Adsterra) — only loads for people who click Download
+  var pop = document.createElement('script');
+  pop.src = 'https://pl30569210.effectivecpmnetwork.com/7b/d0/ce/7bd0ce7172fb72dd31ae77321118d97d.js';
+  document.body.appendChild(pop);
 
   setTimeout(function(){
     var a = document.createElement('a');
@@ -477,7 +518,14 @@ function startDownload(){
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+
+    // Switch overlay to "Download Complete" state
+    spinner.style.display = 'none';
+    icon.style.display = 'block';
+    title.textContent = 'Download Complete!';
+    message.textContent = 'Check your Downloads folder — enjoy your planner!';
     fallback.style.display = 'inline-block';
+    closeBtn.style.display = 'inline-block';
   }, 4000);
 }
 </script>
